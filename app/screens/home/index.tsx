@@ -1,15 +1,51 @@
-import { useAuth } from "@/app/lib/auth/AuthProvider";
-import { Text, TouchableOpacity, View } from "react-native";
+import Button from "@/app/components/Button";
+import PokemonItem from "@/app/components/PokemonItem";
+import { useAuth, useUser } from "@/app/lib/auth/AuthProvider";
+import { usePokemonList as usePokemons } from "@/app/lib/pokemon";
+import { getErrorMessage } from "@/app/utils/state";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
+  const user = useUser();
+  const pokemonsResult = usePokemons();
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home Screen</Text>
-      <TouchableOpacity onPress={() => signOut()}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
+    <View>
+      <View style={styles.headerContainer}>
+        <Text>{user.email}</Text>
+        <Button onPress={() => signOut()} text="Sign Out" />
+      </View>
+      {pokemonsResult.type === "error" && (
+        <Text>{getErrorMessage(pokemonsResult.error)}</Text>
+      )}
+      {pokemonsResult.type === "success" && (
+        <FlatList
+          numColumns={2}
+          style={styles.flatList}
+          data={pokemonsResult.data?.results ?? []}
+          columnWrapperStyle={styles.flatListItemStyle}
+          contentContainerStyle={styles.flatListItemStyle}
+          renderItem={({ item }) => <PokemonItem pokemon={item} />}
+        />
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    padding: 16,
+  },
+  flatListItemStyle: {
+    gap: 8,
+  },
+  flatList: {
+    marginHorizontal: 16,
+  },
+});

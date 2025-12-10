@@ -1,13 +1,8 @@
+import Button from "@/app/components/Button";
 import { useAuth } from "@/app/lib/auth/AuthProvider";
 import { getErrorMessage, State } from "@/app/utils/state";
 import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { colors } from "../../theme/colors";
 
 export default function SignInScreen() {
@@ -40,8 +35,7 @@ export default function SignInScreen() {
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity
-          style={styles.button}
+        <Button
           onPress={async () => {
             setResult({ type: "loading" });
             try {
@@ -51,9 +45,8 @@ export default function SignInScreen() {
               setResult({ type: "error", error });
             }
           }}
-        >
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
+          text="Sign In"
+        />
         {result?.type === "error" && (
           <Text>{getErrorMessage(result?.error)}</Text>
         )}
@@ -80,18 +73,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   fieldContainer: {},
-  button: {
-    backgroundColor: colors.primary,
-    borderRadius: 8,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: colors.background,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
   label: {
     paddingBottom: 4,
   },
