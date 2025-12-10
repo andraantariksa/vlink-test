@@ -61,6 +61,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         setUser({ type: "success", data });
       } catch (error) {
         setUser({ type: "success", data: null });
+        throw error;
       }
     },
     [],

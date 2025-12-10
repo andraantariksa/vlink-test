@@ -50,7 +50,9 @@ export default function SignInScreen() {
           text="Sign In"
         />
         {result?.type === "error" && (
-          <Text>{getErrorMessage(result?.error)}</Text>
+          <Text style={styles.errorMessage}>
+            {getErrorMessage(result?.error)}
+          </Text>
         )}
       </View>
     </View>
@@ -77,5 +79,10 @@ const styles = StyleSheet.create({
   fieldContainer: {},
   label: {
     paddingBottom: 4,
+  },
+  errorMessage: {
+    color: colors.error,
+    fontSize: 14,
+    alignSelf: "center",
   },
 });

@@ -2,6 +2,7 @@ import Button from "@/app/components/Button";
 import PokemonItem from "@/app/components/PokemonItem";
 import { useAuth, useUser } from "@/app/lib/auth/AuthProvider";
 import { usePokemonList as usePokemons } from "@/app/lib/pokemon";
+import { colors } from "@/app/theme/colors";
 import type { RootStackScreenProps } from "@/app/types/navigation";
 import { getErrorMessage } from "@/app/utils/state";
 import { useCallback } from "react";
@@ -29,7 +30,13 @@ export default function HomeScreen({ navigation }: Props) {
         <Text>{user.email}</Text>
         <Button onPress={() => signOut()} text="Sign Out" />
       </View>
-      {result.type === "error" && <Text>{getErrorMessage(result.error)}</Text>}
+      {result.type === "error" && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorMessage}>
+            {getErrorMessage(result.error)}
+          </Text>
+        </View>
+      )}
       <FlatList
         numColumns={2}
         style={styles.flatList}
@@ -68,5 +75,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  errorMessage: {
+    color: colors.error,
+    fontSize: 16,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

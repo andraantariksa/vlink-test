@@ -21,14 +21,18 @@ export default function PokemonDetailsScreen({ route }: Props) {
 
   if (result.type === "loading") {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={styles.centerContainer}>
         <ActivityIndicator size="large" />
       </View>
     );
   }
 
   if (result.type === "error") {
-    return <Text>{getErrorMessage(result.error)}</Text>;
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorMessage}>{getErrorMessage(result.error)}</Text>
+      </View>
+    );
   }
 
   const pokemon = result.data;
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 16,
   },
-  loadingContainer: {
+  centerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -103,5 +107,9 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 16,
     backgroundColor: colors.background,
+  },
+  errorMessage: {
+    color: colors.error,
+    fontSize: 16,
   },
 });
