@@ -19,7 +19,9 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.andraantariksa.vlinktest",
+      "ndkVersion": "27.0.11718014"
     },
     "web": {
       "output": "static",
@@ -41,6 +43,11 @@
     ],
     "experiments": {
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1c5e1cf6-1d50-4901-a6ee-d3e308d15c07"
+      }
     }
   }
 }
