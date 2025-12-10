@@ -4,14 +4,16 @@ import { useAuth, useUser } from "@/app/lib/auth/AuthProvider";
 import { usePokemonList as usePokemons } from "@/app/lib/pokemon";
 import { getErrorMessage } from "@/app/utils/state";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const { signOut } = useAuth();
+  const insets = useSafeAreaInsets();
   const user = useUser();
   const { result, refresh } = usePokemons();
 
   return (
-    <View style={styles.container}>
+    <View style={[{ paddingBottom: insets.bottom }, styles.container]}>
       <View style={styles.headerContainer}>
         <Text>{user.email}</Text>
         <Button onPress={() => signOut()} text="Sign Out" />

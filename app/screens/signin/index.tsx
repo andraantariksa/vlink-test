@@ -3,17 +3,19 @@ import { useAuth } from "@/app/lib/auth/AuthProvider";
 import { getErrorMessage, State } from "@/app/utils/state";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../theme/colors";
 
 export default function SignInScreen() {
   const { signInWithEmail } = useAuth();
+  const insets = useSafeAreaInsets();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [result, setResult] = useState<State<unknown>>();
 
   return (
-    <View style={styles.container}>
+    <View style={[{ paddingBottom: insets.bottom }, styles.container]}>
       <View style={styles.form}>
         <View style={styles.fieldContainer}>
           <Text style={styles.label}>Email</Text>
