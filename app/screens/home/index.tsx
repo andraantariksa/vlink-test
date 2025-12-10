@@ -1,6 +1,5 @@
-import Button from "@/app/components/Button";
+import Header from "@/app/components/Header";
 import PokemonItem from "@/app/components/PokemonItem";
-import { useAuth, useUser } from "@/app/lib/auth/AuthProvider";
 import { usePokemonList as usePokemons } from "@/app/lib/pokemon";
 import { colors } from "@/app/theme/colors";
 import type { RootStackScreenProps } from "@/app/types/navigation";
@@ -12,9 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 type Props = RootStackScreenProps<"Home">;
 
 export default function HomeScreen({ navigation }: Props) {
-  const { signOut } = useAuth();
   const insets = useSafeAreaInsets();
-  const user = useUser();
   const { result, refresh } = usePokemons();
 
   const onPress = useCallback(
@@ -26,10 +23,7 @@ export default function HomeScreen({ navigation }: Props) {
 
   return (
     <View style={[{ paddingBottom: insets.bottom }, styles.container]}>
-      <View style={styles.headerContainer}>
-        <Text>{user.email}</Text>
-        <Button onPress={() => signOut()} text="Sign Out" />
-      </View>
+      <Header />
       {result.type === "error" && (
         <View style={styles.errorContainer}>
           <Text style={styles.errorMessage}>
@@ -55,14 +49,6 @@ export default function HomeScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    padding: 16,
-  },
   flatListColumnWrapper: {
     gap: 8,
   },

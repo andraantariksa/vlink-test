@@ -1,3 +1,4 @@
+import Header from "@/app/components/Header";
 import { usePokemonDetails } from "@/app/lib/pokemon";
 import { colors } from "@/app/theme/colors";
 import type { RootStackScreenProps } from "@/app/types/navigation";
@@ -42,44 +43,49 @@ export default function PokemonDetailsScreen({ route }: Props) {
   const moves = pokemon.moves.map((move) => move.move.name).join(", ");
 
   return (
-    <ScrollView
-      contentContainerStyle={{ paddingBottom: insets.bottom + 32 }}
-      style={styles.container}
-    >
-      <View style={styles.sectionCard}>
-        <Image
-          source={{ uri: pokemon.sprites.front_default ?? undefined }}
-          style={styles.image}
-        />
-        <Text style={styles.title}>{`#${pokemon.id}`}</Text>
-        <Text style={styles.title}>{pokemon.name}</Text>
-      </View>
-      <View style={styles.sectionCard}>
-        <Text style={styles.label}>Stats</Text>
-        {pokemon.stats.map((stat) => {
-          return (
-            <Text
-              style={styles.value}
-            >{`${stat.stat.name}: ${stat.base_stat}`}</Text>
-          );
-        })}
-      </View>
-      <View style={styles.sectionCard}>
-        <Text style={styles.label}>Abilities</Text>
-        <Text style={styles.value}>{abilities}</Text>
-      </View>
-      <View style={styles.sectionCard}>
-        <Text style={styles.label}>Moves: </Text>
-        <Text style={styles.value}>{moves}</Text>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <Header />
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: insets.bottom + 32 }}
+        style={styles.contentContainer}
+      >
+        <View style={styles.sectionCard}>
+          <Image
+            source={{ uri: pokemon.sprites.front_default ?? undefined }}
+            style={styles.image}
+          />
+          <Text style={styles.title}>{`#${pokemon.id}`}</Text>
+          <Text style={styles.title}>{pokemon.name}</Text>
+        </View>
+        <View style={styles.sectionCard}>
+          <Text style={styles.label}>Stats</Text>
+          {pokemon.stats.map((stat) => {
+            return (
+              <Text
+                style={styles.value}
+              >{`${stat.stat.name}: ${stat.base_stat}`}</Text>
+            );
+          })}
+        </View>
+        <View style={styles.sectionCard}>
+          <Text style={styles.label}>Abilities</Text>
+          <Text style={styles.value}>{abilities}</Text>
+        </View>
+        <View style={styles.sectionCard}>
+          <Text style={styles.label}>Moves: </Text>
+          <Text style={styles.value}>{moves}</Text>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 16,
+  },
+  contentContainer: {
+    flex: 1,
   },
   centerContainer: {
     flex: 1,
