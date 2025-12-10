@@ -3,15 +3,19 @@ import { FirebaseAuthError } from "../lib/auth/firebase";
 export type SuccessKind<T> = {
   type: "success";
   data: T;
+  error?: never;
 };
 
 export type ErrorKind<E> = {
   type: "error";
   error: E;
+  data?: never;
 };
 
 export type LoadingKind = {
   type: "loading";
+  error?: never;
+  data?: never;
 };
 
 export type State<T, E = unknown> = SuccessKind<T> | ErrorKind<E> | LoadingKind;

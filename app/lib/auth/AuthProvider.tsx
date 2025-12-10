@@ -30,6 +30,7 @@ export const useUser = () => {
 
   const user = auth.user;
   if (user.type !== "success") throw new Error("User not loaded yet");
+  if (user.data === null) throw new Error("No user logged in");
   return user.data;
 };
 
