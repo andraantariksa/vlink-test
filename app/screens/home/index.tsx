@@ -8,7 +8,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 export default function HomeScreen() {
   const { signOut } = useAuth();
   const user = useUser();
-  const pokemonsResult = usePokemons();
+  const { result, refresh } = usePokemons();
 
   return (
     <View>
@@ -16,19 +16,18 @@ export default function HomeScreen() {
         <Text>{user.email}</Text>
         <Button onPress={() => signOut()} text="Sign Out" />
       </View>
-      {pokemonsResult.type === "error" && (
-        <Text>{getErrorMessage(pokemonsResult.error)}</Text>
-      )}
-      {pokemonsResult.type === "success" && (
-        <FlatList
-          numColumns={2}
-          style={styles.flatList}
-          data={pokemonsResult.data?.results ?? []}
-          columnWrapperStyle={styles.flatListItemStyle}
-          contentContainerStyle={styles.flatListItemStyle}
-          renderItem={({ item }) => <PokemonItem pokemon={item} />}
-        />
-      )}
+      {result.type === "error" && <Text>{getErrorMessage(result.error)}</Text>}
+      <FlatList
+        numColumns={2}
+        style={styles.flatList}
+        refreshing={result.type === "loading"}
+        onRefresh={refresh}
+        data={result.data?.results ?? []}
+        keyExtractor={(item) => item.name}
+        columnWrapperStyle={styles.flatListItemStyle}
+        contentContainerStyle={styles.flatListItemStyle}
+        renderItem={({ item }) => <PokemonItem pokemon={item} />}
+      />
     </View>
   );
 }
