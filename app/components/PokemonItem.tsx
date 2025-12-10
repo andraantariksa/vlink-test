@@ -1,11 +1,12 @@
 import { Image, Text, TouchableOpacity } from "react-native";
-import { getPokemonImageUrl, PokemonResponse } from "../lib/pokemon";
+import { getPokemonImageUrl, NamedApiResource } from "../lib/pokemon";
 
 type PokemonItemProps = {
-  pokemon: PokemonResponse;
+  pokemon: NamedApiResource;
+  onPress: (pokemon: NamedApiResource) => void;
 };
 
-export default function PokemonItem({ pokemon }: PokemonItemProps) {
+export default function PokemonItem({ pokemon, onPress }: PokemonItemProps) {
   return (
     <TouchableOpacity
       style={{
@@ -15,6 +16,7 @@ export default function PokemonItem({ pokemon }: PokemonItemProps) {
         borderRadius: 16,
         paddingVertical: 16,
       }}
+      onPress={() => onPress(pokemon)}
     >
       <Image
         source={{

@@ -2,15 +2,26 @@ import Button from "@/app/components/Button";
 import PokemonItem from "@/app/components/PokemonItem";
 import { useAuth, useUser } from "@/app/lib/auth/AuthProvider";
 import { usePokemonList as usePokemons } from "@/app/lib/pokemon";
+import type { RootStackScreenProps } from "@/app/types/navigation";
 import { getErrorMessage } from "@/app/utils/state";
+import { useCallback } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function HomeScreen() {
+type Props = RootStackScreenProps<"Home">;
+
+export default function HomeScreen({ navigation }: Props) {
   const { signOut } = useAuth();
   const insets = useSafeAreaInsets();
   const user = useUser();
   const { result, refresh } = usePokemons();
+
+  const onPress = useCallback(
+    (pokemon: { name: string }) => {
+      navigation.navigate("PokemonDetails", { name: pokemon.name });
+    },
+    [navigation],
+  );
 
   return (
     <View style={[{ paddingBottom: insets.bottom }, styles.container]}>
@@ -28,7 +39,9 @@ export default function HomeScreen() {
         keyExtractor={(item) => item.name}
         columnWrapperStyle={styles.flatListColumnWrapper}
         contentContainerStyle={styles.flatListContentContainer}
-        renderItem={({ item }) => <PokemonItem pokemon={item} />}
+        renderItem={({ item }) => (
+          <PokemonItem pokemon={item} onPress={onPress} />
+        )}
       />
     </View>
   );
