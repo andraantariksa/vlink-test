@@ -1,4 +1,5 @@
-import { useRouter } from "expo-router";
+import { useAuth } from "@/app/lib/auth/AuthProvider";
+import { getErrorMessage, State } from "@/app/utils/state";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -10,9 +11,11 @@ import {
 import { colors } from "../../theme/colors";
 
 export default function SignInScreen() {
+  const { signInWithEmail } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [result, setResult] = useState<State<unknown>>();
 
   return (
     <View style={styles.container}>
@@ -33,17 +36,27 @@ export default function SignInScreen() {
             onChangeText={setPassword}
             value={password}
             style={styles.field}
+            autoCapitalize="none"
             secureTextEntry={true}
           />
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            router.navigate("/screens/home");
+          onPress={async () => {
+            setResult({ type: "loading" });
+            try {
+              await signInWithEmail(email, password);
+              setResult({ type: "success", data: null });
+            } catch (error) {
+              setResult({ type: "error", error });
+            }
           }}
         >
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
+        {result?.type === "error" && (
+          <Text>{getErrorMessage(result?.error)}</Text>
+        )}
       </View>
     </View>
   );
