@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { State } from "../utils/state";
 
+interface FetchResult<T> {
+  result: State<T>;
+  refresh: () => Promise<void>;
+}
+
 /**
  * A simple React Query-like hook for fetching data from APIs
  */
-export function useFetch<T>(fetchFn: () => Promise<T>): State<T> {
+export function useFetch<T>(fetchFn: () => Promise<T>): FetchResult<T> {
   const [state, setState] = useState<State<T>>({ type: "loading" });
 
   // For memory safety
@@ -36,5 +41,5 @@ export function useFetch<T>(fetchFn: () => Promise<T>): State<T> {
     fetchData();
   }, [fetchData]);
 
-  return state;
+  return { result: state, refresh: fetchData };
 }
