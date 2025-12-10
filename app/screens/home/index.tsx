@@ -11,7 +11,7 @@ export default function HomeScreen() {
   const pokemonsResult = usePokemons();
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text>{user.email}</Text>
         <Button onPress={() => signOut()} text="Sign Out" />
@@ -24,8 +24,8 @@ export default function HomeScreen() {
           numColumns={2}
           style={styles.flatList}
           data={pokemonsResult.data?.results ?? []}
-          columnWrapperStyle={styles.flatListItemStyle}
-          contentContainerStyle={styles.flatListItemStyle}
+          columnWrapperStyle={styles.flatListColumnWrapper}
+          contentContainerStyle={styles.flatListContentContainer}
           renderItem={({ item }) => <PokemonItem pokemon={item} />}
         />
       )}
@@ -42,10 +42,17 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
   },
-  flatListItemStyle: {
+  flatListColumnWrapper: {
     gap: 8,
+  },
+  flatListContentContainer: {
+    gap: 8,
+    paddingBottom: 8,
   },
   flatList: {
     marginHorizontal: 16,
+  },
+  container: {
+    flex: 1,
   },
 });

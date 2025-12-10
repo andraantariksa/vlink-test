@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth, UserProvider } from "./lib/auth/AuthProvider";
 
 function Routes() {
@@ -23,8 +24,10 @@ function Routes() {
 
 export default function RootLayout() {
   return (
-    <UserProvider>
-      <Routes />
-    </UserProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <UserProvider>
+        <Routes />
+      </UserProvider>
+    </SafeAreaView>
   );
 }
